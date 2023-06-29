@@ -20,6 +20,7 @@ import {
   CompliteGlobalToDo,
   DeleteGlobalToDo,
 } from "../store/Slices/globalToDoSlice";
+import { CloseCircleTwoTone } from "@ant-design/icons";
 function Content() {
   const [modalEveryDay, setModalEveryDay] = useState(false);
   const [modalGlobal, setModalGlobal] = useState(false);
@@ -29,107 +30,109 @@ function Content() {
   const dispatch = useDispatch();
   return (
     <>
-      <Row>
+      <Row style={{marginTop:"25px"}}>
         <Col span={9} offset={2}>
-          <Card title="Каждый день">
-            {everyDayToDo.map((element) => {
-              return (
-                <div
-                  key={element.name}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Checkbox
-                    checked={element.complited}
-                    onClick={() => {
-                      dispatch(CompliteEveryDayToDo(element.name));
-                    }}
-                  ></Checkbox>
-                  <Typography.Title style={{ marginLeft: "40px" }}>
-                    {element.name}
-                  </Typography.Title>
-                  <Button
-                    name={element.name}
-                    type="primary"
-                    shape="round"
-                    onClick={(event) => {
-                      dispatch(DeleteEveryDayToDo(event.target.name));
-                    }}
-                  >
-                    <span style={{ pointerEvents: "none" }}>Delete</span>
-                  </Button>
-                </div>
-              );
-            })}
-            <Button
-              type="primary"
-              shape="round"
-              onClick={() => {
-                setNewToDoName("");
-                setModalEveryDay(true);
-              }}
-            >
-              Create New
-            </Button>
-            <Modal
-              title="Создать ежедневную задачу"
-              open={modalEveryDay}
-              onOk={() => {
-                if (newToDoName != "") dispatch(AddEveryDayToDo(newToDoName));
-                setModalEveryDay(false);
-              }}
-              onCancel={() => {
-                setNewToDoName("");
-                setModalEveryDay(false);
-              }}
-            >
-              <Input
-                value={newToDoName}
-                onChange={(event) => {
-                  setNewToDoName(event.target.value);
+          <Card
+            title={
+              <Typography.Title level={3} style={{ alignItems: "center" }}>
+                {"Ежедневные"}
+              </Typography.Title>
+            }
+          >
+            <div>
+              {everyDayToDo.map((element) => {
+                return (
+                  <div key={element.name} className="container" style={{backgroundColor: element.complited?"rgb(186 157 255 / 77%)":null}}>
+                    <Checkbox
+                      style={{ transform: "scale(2)", marginLeft: "20px" }}
+                      checked={element.complited}
+                      onClick={() => {
+                        dispatch(CompliteEveryDayToDo(element.name));
+                      }}
+                    ></Checkbox>
+                    <Typography.Text style={{ transform: "scale(3)" }}>
+                      {element.name}
+                    </Typography.Text>
+                    <CloseCircleTwoTone
+                      style={{ transform: "scale(2.5)" }}
+                      onClick={(event) => {
+                        dispatch(DeleteEveryDayToDo(event.target.name));
+                      }}
+                    />
+                  </div>
+                );
+              })}
+              <Button
+                style={{
+                  transform: "scale(1.8)",
+                  marginTop: "20px",
+                  marginLeft: "45%",
                 }}
-              ></Input>
-            </Modal>
+                type="primary"
+                shape="round"
+                onClick={() => {
+                  setNewToDoName("");
+                  setModalEveryDay(true);
+                }}
+              >
+                Добавить
+              </Button>
+              <Modal
+                title="Создать ежедневную задачу"
+                open={modalEveryDay}
+                onOk={() => {
+                  if (newToDoName != "") dispatch(AddEveryDayToDo(newToDoName));
+                  setModalEveryDay(false);
+                }}
+                onCancel={() => {
+                  setNewToDoName("");
+                  setModalEveryDay(false);
+                }}
+              >
+                <Input
+                  value={newToDoName}
+                  onChange={(event) => {
+                    setNewToDoName(event.target.value);
+                  }}
+                ></Input>
+              </Modal>
+            </div>
           </Card>
         </Col>
         <Col span={9} offset={2}>
-          <Card title="Глобальные">
+          <Card title={
+              <Typography.Title level={3} style={{ alignItems: "center" }}>
+                {"Глобальные"}
+              </Typography.Title>
+            }>
             {GlobalToDo.map((element) => {
               return (
-                <div
-                  key={element.name}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
+                <div key={element.name} className="container" style={{backgroundColor: element.complited?"rgb(186 157 255 / 77%)":null}}>
                   <Checkbox
-                    checked={element.complited}
-                    onClick={() => {
-                      dispatch(CompliteGlobalToDo(element.name));
-                    }}
-                  ></Checkbox>
-                  <Typography.Title style={{ marginLeft: "40px" }}>
-                    {element.name}
-                  </Typography.Title>
-                  <Button
-                    name={element.name}
-                    type="primary"
-                    shape="round"
-                    onClick={(event) => {
-                      dispatch(DeleteGlobalToDo(event.target.name));
-                    }}
-                  >
-                    <span style={{ pointerEvents: "none" }}>Delete</span>
-                  </Button>
+                      style={{ transform: "scale(2)", marginLeft: "20px" }}
+                      checked={element.complited}
+                      onClick={() => {
+                        dispatch(CompliteGlobalToDo(element.name));
+                      }}
+                    ></Checkbox>
+                    <Typography.Text style={{ transform: "scale(3)" }}>
+                      {element.name}
+                    </Typography.Text>
+                    <CloseCircleTwoTone
+                      style={{ transform: "scale(2.5)" }}
+                      onClick={(event) => {
+                        dispatch(DeleteGlobalToDo(event.target.name));
+                      }}
+                    />
                 </div>
               );
             })}
             <Button
+               style={{
+                transform: "scale(1.8)",
+                marginTop: "20px",
+                marginLeft: "45%",
+              }}
               type="primary"
               shape="round"
               onClick={() => {
@@ -137,13 +140,15 @@ function Content() {
                 setModalGlobal(true);
               }}
             >
-              Create New
+              Добавить
             </Button>
             <Modal
               title="Создать глобальную задачу"
               open={modalGlobal}
               onOk={() => {
-                if (newToDoName != ""){ dispatch(AddGlobalToDo(newToDoName));}
+                if (newToDoName != "") {
+                  dispatch(AddGlobalToDo(newToDoName));
+                }
                 setNewToDoName("");
                 setModalGlobal(false);
               }}
@@ -153,7 +158,7 @@ function Content() {
               }}
             >
               <Input
-              value={newToDoName}
+                value={newToDoName}
                 onChange={(event) => {
                   setNewToDoName(event.target.value);
                 }}
