@@ -1,9 +1,12 @@
 {
   "name": "react-ts",
+  "homepage": "https://gitname.github.io/react-gh-pages",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
@@ -13,6 +16,7 @@
     "@ant-design/icons-svg": "^4.2.1",
     "@reduxjs/toolkit": "^1.9.5",
     "antd": "^5.6.3",
+    "gh-pages": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.1",
