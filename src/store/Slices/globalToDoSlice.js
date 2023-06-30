@@ -8,7 +8,7 @@ const GlobalToDoSlice = createSlice({
       state.push({
         complited: false,
         name: action.payload,
-        dateOfLastComplete: "now",
+        index:state.length
       });
       localStorage.setItem("Global", JSON.stringify(state));
     },
@@ -26,8 +26,13 @@ const GlobalToDoSlice = createSlice({
       state.splice(index, 1);
       localStorage.setItem("Global", JSON.stringify(state));
     },
+    ChangeGlobalOrder:(state,action)=>{
+      let name=state[action.payload.index].name;
+      state[action.payload.index].name=state[action.payload.index+action.payload.direction].name;
+      state[action.payload.index+action.payload.direction].name=name;
+    }
   },
 });
-export const { AddGlobalToDo, CompliteGlobalToDo, DeleteGlobalToDo } =
+export const { AddGlobalToDo, CompliteGlobalToDo, DeleteGlobalToDo,ChangeGlobalOrder } =
   GlobalToDoSlice.actions;
 export default GlobalToDoSlice.reducer;

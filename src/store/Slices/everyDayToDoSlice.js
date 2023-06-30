@@ -9,13 +9,19 @@ const EveryDayToDoSlice = createSlice({
         complited: false,
         name: action.payload,
         dateOfLastComplete: "now",
+        index:state.length
       });
       localStorage.setItem("everyDay", JSON.stringify(state));
     },
     CompliteEveryDayToDo: (state, action) => {
+      let date=new Date();
+      let day=date.getDate();
       state.forEach((element) => {
         if (element.name == action.payload)
+          {
           element.complited = !element.complited;
+          element.dateOfLastComplete=day;
+          }
       });
       localStorage.setItem("everyDay", JSON.stringify(state));
     },
@@ -26,8 +32,22 @@ const EveryDayToDoSlice = createSlice({
       state.splice(index, 1);
       localStorage.setItem("everyDay", JSON.stringify(state));
     },
+    ChangeEveryDayOrder:(state,action)=>{
+      let name=state[action.payload.index].name;
+      state[action.payload.index].name=state[action.payload.index+action.payload.direction].name;
+      state[action.payload.index+action.payload.direction].name=name;
+    },
+    UpdateEveryDayToDo:(state)=>{
+      let date=new Date();
+      let day=date.getDate();
+      state.forEach((element)=>{
+        if(element.dateOfLastComplete!=day){
+          element.complited=false;
+        }
+      })
+    }
   },
 });
-export const { AddEveryDayToDo, CompliteEveryDayToDo, DeleteEveryDayToDo } =
+export const { AddEveryDayToDo, CompliteEveryDayToDo, DeleteEveryDayToDo,ChangeEveryDayOrder,UpdateEveryDayToDo } =
   EveryDayToDoSlice.actions;
 export default EveryDayToDoSlice.reducer;

@@ -11,54 +11,114 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import {
   AddEveryDayToDo,
+  ChangeEveryDayOrder,
   CompliteEveryDayToDo,
   DeleteEveryDayToDo,
 } from "../store/Slices/everyDayToDoSlice";
 import { useState } from "react";
 import {
   AddGlobalToDo,
+  ChangeGlobalOrder,
   CompliteGlobalToDo,
   DeleteGlobalToDo,
 } from "../store/Slices/globalToDoSlice";
-import { CloseCircleTwoTone } from "@ant-design/icons";
+import {
+  CloseCircleTwoTone,
+  EditOutlined,
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+} from "@ant-design/icons";
 function Content() {
   const [modalEveryDay, setModalEveryDay] = useState(false);
   const [modalGlobal, setModalGlobal] = useState(false);
   const [newToDoName, setNewToDoName] = useState("");
+  const [orderEveryDay, setOrderEveryDay] = useState(false);
+  const [orderGlobal, setOrderGlobal] = useState(false);
   const everyDayToDo = useSelector((state) => state.everyDayToDo);
   const GlobalToDo = useSelector((state) => state.globalToDo);
   const dispatch = useDispatch();
   return (
     <>
-      <Row style={{marginTop:"25px"}}>
+      <Row style={{ marginTop: "25px" }}>
         <Col span={9} offset={2}>
           <Card
             title={
-              <Typography.Title level={3} style={{ alignItems: "center" }}>
-                {"Ежедневные"}
-              </Typography.Title>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <Typography.Title level={3}>{"Ежедневные"}</Typography.Title>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    setOrderEveryDay(!orderEveryDay);
+                  }}
+                >
+                  {orderEveryDay ? "Сохранить" : "Изменить порядок"}
+                  {orderEveryDay ? null : <EditOutlined></EditOutlined>}
+                </Button>
+              </div>
             }
           >
             <div>
               {everyDayToDo.map((element) => {
                 return (
-                  <div key={element.name} className="container" style={{backgroundColor: element.complited?"rgb(186 157 255 / 77%)":null}}>
+                  <div
+                    key={element.name}
+                    className="container"
+                    style={{
+                      backgroundColor: element.complited
+                        ? "rgb(186 157 255 / 77%)"
+                        : null,
+                    }}
+                  >
+                    <Row style={{marginLeft:"10px"}} ><Col span={2} style={{margin:"auto 0px"}} >
                     <Checkbox
-                      style={{ transform: "scale(2)", marginLeft: "20px" }}
+                      style={{ transform: "scale(2)"}}
                       checked={element.complited}
                       onClick={() => {
                         dispatch(CompliteEveryDayToDo(element.name));
                       }}
                     ></Checkbox>
-                    <Typography.Text style={{ transform: "scale(3)" }}>
+                    </Col><Col span={20}>
+                    <Typography.Title level={2} style={{textAlign:"center", margin:"0px"}}>
                       {element.name}
-                    </Typography.Text>
-                    <CloseCircleTwoTone
-                      style={{ transform: "scale(2.5)" }}
-                      onClick={(event) => {
-                        dispatch(DeleteEveryDayToDo(event.target.name));
-                      }}
-                    />
+                    </Typography.Title>
+                    </Col>
+                    
+                    {orderEveryDay ? (
+                      <>
+                        <Col span={1} style={{margin:"auto 0"}}>
+                        {element.index != 0 && (
+                          
+                          <ArrowUpOutlined
+                          onClick={()=>{dispatch(ChangeEveryDayOrder({index:element.index,direction:-1}))}}
+                            style={{
+                              transform: "scale(1.4)"
+                              
+                            }}
+                          ></ArrowUpOutlined>
+                        )}
+                        </Col>
+                        <Col span={1} style={{margin:"auto 0"}}>
+                        {element.index != everyDayToDo.length - 1 && (
+                          
+                          <ArrowDownOutlined
+                          onClick={()=>{dispatch(ChangeEveryDayOrder({index:element.index,direction:1}))}}
+                            style={{ transform: "scale(1.4)" }}
+                          ></ArrowDownOutlined>
+                         
+                        )}
+                         </Col>
+                         </>
+                    ) : (
+                      <Col span={1} offset={1} style={{margin:"auto"}}>
+                      <CloseCircleTwoTone
+                        style={{ transform: "scale(2.5)"}}
+                        onClick={(event) => {
+                          dispatch(DeleteEveryDayToDo(event.target.name));
+                        }}
+                      />
+                      </Col>
+                    )}
+                    </Row>
                   </div>
                 );
               })}
@@ -73,6 +133,7 @@ function Content() {
                 onClick={() => {
                   setNewToDoName("");
                   setModalEveryDay(true);
+                  console.log(everyDayToDo)
                 }}
               >
                 Добавить
@@ -100,35 +161,90 @@ function Content() {
           </Card>
         </Col>
         <Col span={9} offset={2}>
-          <Card title={
-              <Typography.Title level={3} style={{ alignItems: "center" }}>
-                {"Глобальные"}
-              </Typography.Title>
-            }>
+          <Card
+            title={
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <Typography.Title level={3}>{"Глобальные"}</Typography.Title>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    setOrderGlobal(!orderGlobal);
+                  }}
+                >
+                  {orderGlobal ? "Сохранить" : "Изменить порядок"}
+                  {orderGlobal ? null : <EditOutlined></EditOutlined>}
+                </Button>
+              </div>
+            }
+          >
             {GlobalToDo.map((element) => {
               return (
-                <div key={element.name} className="container" style={{backgroundColor: element.complited?"rgb(186 157 255 / 77%)":null}}>
-                  <Checkbox
-                      style={{ transform: "scale(2)", marginLeft: "20px" }}
+                <div
+                  key={element.name}
+                  className="container"
+                  style={{
+                    backgroundColor: element.complited
+                      ? "rgb(186 157 255 / 77%)"
+                      : null,
+                  }}
+                >
+                  <Row style={{marginLeft:"10px"}} >
+                  <Col span={2} style={{margin:"auto 0px"}} >
+                    <Checkbox
+                      style={{ transform: "scale(2)"}}
                       checked={element.complited}
                       onClick={() => {
                         dispatch(CompliteGlobalToDo(element.name));
                       }}
                     ></Checkbox>
-                    <Typography.Text style={{ transform: "scale(3)" }}>
+                    </Col><Col span={20}>
+                    <Typography.Title level={2} style={{textAlign:"center", margin:"0px"}}>
                       {element.name}
-                    </Typography.Text>
-                    <CloseCircleTwoTone
-                      style={{ transform: "scale(2.5)" }}
-                      onClick={(event) => {
-                        dispatch(DeleteGlobalToDo(event.target.name));
-                      }}
-                    />
+                    </Typography.Title>
+                    </Col>
+                    
+                    {orderGlobal ? (
+                      <>
+                        <Col span={1} style={{margin:"auto 0"}}>
+                        {element.index != 0 && (
+                          
+                          <ArrowUpOutlined
+                          onClick={()=>{dispatch(ChangeGlobalOrder({index:element.index,direction:-1}))}}
+                            style={{
+                              transform: "scale(1.4)"
+                              
+                            }}
+                          ></ArrowUpOutlined>
+                        )}
+                        </Col>
+                        <Col span={1} style={{margin:"auto 0"}}>
+                        {element.index != GlobalToDo.length - 1 && (
+                          
+                          <ArrowDownOutlined
+                          onClick={()=>{dispatch(ChangeGlobalOrder({index:element.index,direction:1}))}}
+                            style={{ transform: "scale(1.4)" }}
+                          ></ArrowDownOutlined>
+                         
+                        )}
+                         </Col>
+                         </>
+                    ) : (
+                      <Col span={1} offset={1} style={{margin:"auto"}}>
+                      <CloseCircleTwoTone
+                        style={{ transform: "scale(2.5)"}}
+                        onClick={(event) => {
+                          dispatch(DeleteGlobalToDo(event.target.name));
+                        }}
+                      />
+                      </Col>
+                    )}
+                  
+                  </Row>
                 </div>
               );
             })}
             <Button
-               style={{
+              style={{
                 transform: "scale(1.8)",
                 marginTop: "20px",
                 marginLeft: "45%",
