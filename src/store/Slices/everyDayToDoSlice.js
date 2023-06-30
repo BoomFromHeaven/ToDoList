@@ -36,6 +36,9 @@ const EveryDayToDoSlice = createSlice({
       let name=state[action.payload.index].name;
       state[action.payload.index].name=state[action.payload.index+action.payload.direction].name;
       state[action.payload.index+action.payload.direction].name=name;
+      name=state[action.payload.index].complited;
+      state[action.payload.index].complited=state[action.payload.index+action.payload.direction].complited;
+      state[action.payload.index+action.payload.direction].complited=name;
     },
     UpdateEveryDayToDo:(state)=>{
       let date=new Date();
