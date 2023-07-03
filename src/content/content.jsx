@@ -27,6 +27,8 @@ import {
   EditOutlined,
   ArrowDownOutlined,
   ArrowUpOutlined,
+  UpCircleTwoTone,
+  DownCircleTwoTone,
 } from "@ant-design/icons";
 function Content() {
   const [modalEveryDay, setModalEveryDay] = useState(false);
@@ -69,55 +71,66 @@ function Content() {
                         : null,
                     }}
                   >
-                    <Row style={{marginLeft:"10px"}} ><Col span={2} style={{margin:"auto 0px"}} >
-                    <Checkbox
-                      style={{ transform: "scale(2)"}}
-                      checked={element.complited}
-                      onClick={() => {
-                        dispatch(CompliteEveryDayToDo(element.name));
-                      }}
-                    ></Checkbox>
-                    </Col><Col span={20}>
-                    <Typography.Title level={2} style={{textAlign:"center", margin:"0px"}}>
-                      {element.name}
-                    </Typography.Title>
-                    </Col>
-                    
-                    {orderEveryDay ? (
-                      <>
-                        <Col span={1} style={{margin:"auto 0"}}>
-                        {element.index != 0 && (
-                          
-                          <ArrowUpOutlined
-                          onClick={()=>{dispatch(ChangeEveryDayOrder({index:element.index,direction:-1}))}}
-                            style={{
-                              transform: "scale(1.4)"
-                              
+                    <Row style={{ marginLeft: "10px" }}>
+                      <Col span={2} style={{ margin: "auto 0px" }}>
+                        {orderEveryDay ? (
+                          element.index != 0 && (
+                            <UpCircleTwoTone
+                              onClick={() => {
+                                dispatch(
+                                  ChangeEveryDayOrder({
+                                    index: element.index,
+                                    direction: -1,
+                                  })
+                                );
+                              }}
+                              style={{ transform: "scale(2.5)" }}
+                            ></UpCircleTwoTone>
+                          )
+                        ) : (
+                          <Checkbox
+                            style={{ transform: "scale(2)" }}
+                            checked={element.complited}
+                            onClick={() => {
+                              dispatch(CompliteEveryDayToDo(element.name));
                             }}
-                          ></ArrowUpOutlined>
+                          ></Checkbox>
                         )}
-                        </Col>
-                        <Col span={1} style={{margin:"auto 0"}}>
-                        {element.index != everyDayToDo.length - 1 && (
-                          
-                          <ArrowDownOutlined
-                          onClick={()=>{dispatch(ChangeEveryDayOrder({index:element.index,direction:1}))}}
-                            style={{ transform: "scale(1.4)" }}
-                          ></ArrowDownOutlined>
-                         
-                        )}
-                         </Col>
-                         </>
-                    ) : (
-                      <Col span={1} offset={1} style={{margin:"auto"}}>
-                      <CloseCircleTwoTone
-                        style={{ transform: "scale(2.5)"}}
-                        onClick={(event) => {
-                          dispatch(DeleteEveryDayToDo(event.target.name));
-                        }}
-                      />
                       </Col>
-                    )}
+                      <Col span={20}>
+                        <Typography.Title
+                          level={2}
+                          style={{ textAlign: "center", margin: "0px" }}
+                        >
+                          {element.name}
+                        </Typography.Title>
+                      </Col>
+                      <Col span={1} offset={1} style={{ margin: "auto" }}>
+                        {orderEveryDay ? (
+                          <>
+                            {element.index != everyDayToDo.length - 1 && (
+                              <DownCircleTwoTone
+                                onClick={() => {
+                                  dispatch(
+                                    ChangeEveryDayOrder({
+                                      index: element.index,
+                                      direction: 1,
+                                    })
+                                  );
+                                }}
+                                style={{ transform: "scale(2.5)" }}
+                              ></DownCircleTwoTone>
+                            )}
+                          </>
+                        ) : (
+                          <CloseCircleTwoTone
+                            style={{ transform: "scale(2.5)" }}
+                            onClick={(event) => {
+                              dispatch(DeleteEveryDayToDo(event.target.name));
+                            }}
+                          />
+                        )}
+                      </Col>
                     </Row>
                   </div>
                 );
@@ -133,7 +146,7 @@ function Content() {
                 onClick={() => {
                   setNewToDoName("");
                   setModalEveryDay(true);
-                  console.log(everyDayToDo)
+                  console.log(everyDayToDo);
                 }}
               >
                 Добавить
@@ -188,57 +201,67 @@ function Content() {
                       : null,
                   }}
                 >
-                  <Row style={{marginLeft:"10px"}} >
-                  <Col span={2} style={{margin:"auto 0px"}} >
-                    <Checkbox
-                      style={{ transform: "scale(2)"}}
-                      checked={element.complited}
-                      onClick={() => {
-                        dispatch(CompliteGlobalToDo(element.name));
-                      }}
-                    ></Checkbox>
-                    </Col><Col span={20}>
-                    <Typography.Title level={2} style={{textAlign:"center", margin:"0px"}}>
-                      {element.name}
-                    </Typography.Title>
-                    </Col>
-                    
-                    {orderGlobal ? (
-                      <>
-                        <Col span={1} style={{margin:"auto 0"}}>
-                        {element.index != 0 && (
-                          
-                          <ArrowUpOutlined
-                          onClick={()=>{dispatch(ChangeGlobalOrder({index:element.index,direction:-1}))}}
-                            style={{
-                              transform: "scale(1.4)"
-                              
+                  <Row style={{ marginLeft: "10px" }}>
+                  <Col span={2} style={{ margin: "auto 0px" }}>
+                        {orderGlobal ? (
+                          element.index != 0 && (
+                            <UpCircleTwoTone
+                              onClick={() => {
+                                dispatch(
+                                  ChangeGlobalOrder({
+                                    index: element.index,
+                                    direction: -1,
+                                  })
+                                );
+                              }}
+                              style={{ transform: "scale(2.5)" }}
+                            ></UpCircleTwoTone>
+                          )
+                        ) : (
+                          <Checkbox
+                            style={{ transform: "scale(2)" }}
+                            checked={element.complited}
+                            onClick={() => {
+                              dispatch(CompliteGlobalToDo(element.name));
                             }}
-                          ></ArrowUpOutlined>
+                          ></Checkbox>
                         )}
-                        </Col>
-                        <Col span={1} style={{margin:"auto 0"}}>
-                        {element.index != GlobalToDo.length - 1 && (
-                          
-                          <ArrowDownOutlined
-                          onClick={()=>{dispatch(ChangeGlobalOrder({index:element.index,direction:1}))}}
-                            style={{ transform: "scale(1.4)" }}
-                          ></ArrowDownOutlined>
-                         
-                        )}
-                         </Col>
-                         </>
-                    ) : (
-                      <Col span={1} offset={1} style={{margin:"auto"}}>
-                      <CloseCircleTwoTone
-                        style={{ transform: "scale(2.5)"}}
-                        onClick={(event) => {
-                          dispatch(DeleteGlobalToDo(event.target.name));
-                        }}
-                      />
                       </Col>
-                    )}
-                  
+                    <Col span={20}>
+                      <Typography.Title
+                        level={2}
+                        style={{ textAlign: "center", margin: "0px" }}
+                      >
+                        {element.name}
+                      </Typography.Title>
+                    </Col>
+
+                    <Col span={1} offset={1} style={{ margin: "auto" }}>
+                        {orderGlobal ? (
+                          <>
+                            {element.index != GlobalToDo.length - 1 && (
+                              <DownCircleTwoTone
+                                onClick={() => {
+                                  dispatch(
+                                    ChangeGlobalOrder({
+                                      index: element.index,
+                                      direction: 1,
+                                    })
+                                  );
+                                }}
+                                style={{ transform: "scale(2.5)" }}
+                              ></DownCircleTwoTone>
+                            )}
+                          </>
+                        ) : (
+                          <CloseCircleTwoTone
+                            style={{ transform: "scale(2.5)" }}
+                            onClick={(event) => {
+                              dispatch(DeleteGlobalToDo(event.target.name));
+                            }}
+                          />
+                        )}
+                      </Col>
                   </Row>
                 </div>
               );
