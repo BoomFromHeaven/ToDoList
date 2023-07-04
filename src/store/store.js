@@ -1,10 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import everyDayToDoSlice from "./Slices/everyDayToDoSlice";
-import globalToDoSlice from "./Slices/globalToDoSlice";
+import toDoListSlice from "./Slices/toDoListSlice";
 export const store = configureStore({
   reducer: {
-    everyDayToDo:everyDayToDoSlice,
-    globalToDo:globalToDoSlice,
+    toDoList: toDoListSlice,
   },
 });
 export default store;

@@ -1,14 +1,18 @@
 import { useEffect } from "react";
 import "./App.css";
-import Content from "./content/content";
 import { useDispatch } from "react-redux";
-import { UpdateEveryDayToDo } from "./store/Slices/everyDayToDoSlice";
+import { updateEveryDayToDo } from "./store/Slices/toDoListSlice";
+import ToDoList from "./content/ToDoList";
 function App() {
-  const dispatch=useDispatch();
-  useEffect(()=>{
-    dispatch(UpdateEveryDayToDo())
-  })
-  return <Content></Content>;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(updateEveryDayToDo());
+  });
+  return (
+    <div>
+      <ToDoList></ToDoList>
+    </div>
+  );
 }
 
 export default App;
